@@ -9,17 +9,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Launcher for word counter.
+ * To run, pass absolute filenames as arguments to the code.
+ */
 public class WordCounterLauncher {
     public static void main(String[] args) {
-        final List<String> fileList = new ArrayList<>();
-        fileList.add("/Users/santosh/IdeaProjects/ImproveDigital/src/main/resources/file1.dat");
-        fileList.add("/Users/santosh/IdeaProjects/ImproveDigital/src/main/resources/file2.dat");
-
-        final WordCounter wc = new WordCounter(fileList.size());
+        final WordCounter wc = new WordCounter(args.length);
 
         final List<ThreadedReader> trs = new ArrayList<>();
-        for (int i = 0; i < fileList.size(); i++) {
-            trs.add(new ThreadedReader(fileList.get(i), wc::countWords, i));
+        for (int i = 0; i < args.length; i++) {
+            trs.add(new ThreadedReader(args[i], wc::countWords, i));
         }
 
         final ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
